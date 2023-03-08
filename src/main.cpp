@@ -41,6 +41,8 @@ void setup() {
   Serial.print("Connecté au serveur");
   client.print("Hello testing");
 
+  //hello
+
 }
 
 void loop() {
