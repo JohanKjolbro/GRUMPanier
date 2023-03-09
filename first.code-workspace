@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "../first"
+		},
+		{
+			"name": "ESP32ProjetGRUM",
+			"path": "../../../../../ProjetGrum/ESP32ProjetGRUM"
+		},
+		{
+			"name": "Testing",
+			"path": "."
+		}
+	],
+	"settings": {}
+}
