@@ -37,6 +37,8 @@ void setup() {
   Serial.println("testing23");
   //lcd
   lcd.begin(16,2);
+  lcd.clear();
+  
   
   
   
@@ -44,27 +46,47 @@ void setup() {
   
   //Connexion au reseau
   Serial.println("\nConnexion au réseau");
-  lcd.print("Connexion WIFI");
+  WiFi.mode(WIFI_STA);
   WiFi.begin(ssid,password);
+  lcd.print(" Connexion WIFI");
+  
   while(WiFi.status() != WL_CONNECTED)
   {
     Serial.print(".");
-    delay(100);
+    lcd.clear();
+    lcd.print(" Connexion WIFI ");
+    lcd.setCursor(6,1);
+    lcd.print(".");
+    delay(500);
+
+    lcd.clear();
+    lcd.print(" Connexion WIFI ");
+    lcd.setCursor(6,1);
+    lcd.print("..");
+
+    lcd.clear();
+    lcd.print(" Connexion WIFI ");
+    lcd.setCursor(6,1);
+    lcd.print("...");
+
   }
   Serial.print("Connecté au réseau");
+  lcd.clear();
   lcd.print("Connecté WIFI");
 
 
   //Connexion au serveur
   Serial.println("\nConnexion au serveur");
-  lcd.println("\nConnexion server");
+  lcd.setCursor(0,1);
+  lcd.print("Connexion server");
   while(!client.connect(host,port))
   {
     Serial.print(".");
     delay(100);
   }
   Serial.print("Connecté au serveur");
-  Serial.print("Connecté server");
+  lcd.clear();
+  lcd.print("Connecté server");
   client.print("test1\n");
 
 }
