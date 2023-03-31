@@ -7,6 +7,7 @@
 const char* ssidHome;
 const char* password; 
 
+
 WiFiClient client;
 
 const char* host = "10.0.0.96";
@@ -58,6 +59,8 @@ connexionServeur(char * ssid, char * password)
 
 
 
+
+
 void setup() {
 
   //moniteur
@@ -65,9 +68,7 @@ void setup() {
   Serial.println("Test serial");
   //lcd
   lcd.begin(16,2);
-  
-  
-  
+  lcd.clear();
 
   
   //Connexion au reseau
@@ -78,17 +79,28 @@ void setup() {
   //Connexion au serveur
   connexionServeur(ssidHome,passwordHome);
 
+
 }
 
 
 void loop() {
-
+  
   client.println(t++);
   
   lcd.setCursor(0,0);
   lcd.print("hello loop");
   lcd.setCursor(0,1);
   lcd.print("hello loop 2");
-
+  
+  if (scale.wait_ready_timeout(1000)) {
+    long reading = scale.get_units(10);
+    Serial.print("Masse : ");
+    Serial.println(reading);
+    Serial.print("g");
+  } else {
+    Serial.println("HX711 not found.");
+  }
+  
+  delay(1500);
 
 }
