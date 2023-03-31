@@ -4,8 +4,9 @@
 
 
 //Declaration de variables relatifs au wifi
-const char* ssid = "iohan";
-const char* password = "johan123";
+const char* ssidHome;
+const char* password; 
+
 
 WiFiClient client;
 
@@ -18,15 +19,45 @@ LiquidCrystal lcd(rs,en, d4, d5, d6, d7);
 
 int t;
 
-class afficheur
+// @ xavier why pass pointers?
+bool connexionReseau(char * ssid, char * password )
 {
+   //Connexion au reseau
+  Serial.println("\nConnexion au reseau");
+  lcd.print("Connexion WIFI");
+  WiFi.begin(ssid,password); // how is this a value? i dont get it
+  int count = 0;
+  while(WiFi.status() != WL_CONNECTED)
+  {
+    if(count > 1000);
+    {
+      return 0;
+    }
+    Serial.print(".");
+    delay(100);
+    count++;
+  }
+  Serial.print("Connecte au reseau");
+  lcd.print("Connecte WIFI");
+  return 1;
+}
 
-};
-
-class connexion
+connexionServeur(char * ssid, char * password)
 {
+  Serial.println("\nConnexion au serveur");
+  lcd.println("\nConnexion server");
+  while(!client.connect(ssid,password))
+  {
+    Serial.print(".");
+    delay(100);
+  }
+  Serial.print("Connecté au serveur");
+  Serial.print("Connecté server");
+  client.print("test1\n");
+}
 
-};
+
+
 
 
 
@@ -34,72 +65,42 @@ void setup() {
 
   //moniteur
   Serial.begin(115200);
-  Serial.println("testing23");
+  Serial.println("Test serial");
   //lcd
   lcd.begin(16,2);
   lcd.clear();
-  
-  
-  
-  
 
   
   //Connexion au reseau
-  Serial.println("\nConnexion au réseau");
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid,password);
-  lcd.print(" Connexion WIFI");
-  
-  while(WiFi.status() != WL_CONNECTED)
-  {
-    Serial.print(".");
-    lcd.clear();
-    lcd.print(" Connexion WIFI ");
-    lcd.setCursor(6,1);
-    lcd.print(".");
-    delay(500);
+  connexionReseau(ssidHome, passwordHome);
 
-    lcd.clear();
-    lcd.print(" Connexion WIFI ");
-    lcd.setCursor(6,1);
-    lcd.print("..");
-
-    lcd.clear();
-    lcd.print(" Connexion WIFI ");
-    lcd.setCursor(6,1);
-    lcd.print("...");
-
-  }
-  Serial.print("Connecté au réseau");
-  lcd.clear();
-  lcd.print("Connecté WIFI");
 
 
   //Connexion au serveur
-  Serial.println("\nConnexion au serveur");
-  lcd.setCursor(0,1);
-  lcd.print("Connexion server");
-  while(!client.connect(host,port))
-  {
-    Serial.print(".");
-    delay(100);
-  }
-  Serial.print("Connecté au serveur");
-  lcd.clear();
-  lcd.print("Connecté server");
-  client.print("test1\n");
+  connexionServeur(ssidHome,passwordHome);
+
 
 }
 
 
 void loop() {
-
+  
   client.println(t++);
   
   lcd.setCursor(0,0);
   lcd.print("hello loop");
   lcd.setCursor(0,1);
   lcd.print("hello loop 2");
-
+  
+  if (scale.wait_ready_timeout(1000)) {
+    long reading = scale.get_units(10);
+    Serial.print("Masse : ");
+    Serial.println(reading);
+    Serial.print("g");
+  } else {
+    Serial.println("HX711 not found.");
+  }
+  
+  delay(1500);
 
 }
