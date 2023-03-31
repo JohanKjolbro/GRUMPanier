@@ -104,7 +104,8 @@ void setup() {
 
 
 
-
+  //hx711 setup
+  scaleSetup(LOADCELL_DOUT_PIN,LOADCELL_SCK_PIN);
 
   //Connexion au reseau
   connexionReseau(ssidHome, passwordHome);
