@@ -1,49 +1,47 @@
 #include <Arduino.h>
-#include <HX711.h>
 
-  // HX711 circuit wiring
-const int LOADCELL_DOUT_PIN = 15;
-const int LOADCELL_SCK_PIN = 2;
-
-const int testWeight = 23;
-
-HX711 scale;
+const int pinBeam1 = 5;
+const int pinLed = 2;
+bool beamCurrentState = 0, beamLastState = 0;
 
 void setup() {
 
+  //moniteur
+
   Serial.begin(115200);
 
-  Serial.print("Taring... Enlever toute masse");
-  scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
+  Serial.println("Test serial");
 
-  scale.set_scale();
-  scale.tare();
-
-  delay(3000);
-
-  Serial.print("Placer masse");
-  delay(5000);
-
-  long calibration = scale.get_units(10);
-
-  scale.set_scale(calibration/testWeight);
-
-
-  
+  pinMode(pinLed, OUTPUT);
+  pinMode(pinBeam1, INPUT);
+  digitalWrite(pinBeam1,HIGH); //pourquoi initialiser le pullup ?
 
 }
 
+
+
+
 void loop() {
 
-  if (scale.wait_ready_timeout(1000)) {
-    long reading = scale.get_units(10);
-    Serial.print("Masse : ");
-    Serial.println(reading);
-    Serial.print("g");
-  } else {
-    Serial.println("HX711 not found.");
+  beamCurrentState = digitalRead(pinBeam1);
+  if(beamCurrentState == HIGH)
+  {
+    digitalWrite(pinLed, LOW);
+  }
+  else
+  {
+    digitalWrite(pinLed, HIGH);
   }
 
-  delay(1500);
-  
+  if(beamLastState && !beamCurrentState)
+  {
+    Serial.print("unbroken");
+  }
+  if(!beamLastState && beamCurrentState)
+  {
+    Serial.print("broken");
+  }
+
+  beamLastState = beamCurrentState;
+
 }
