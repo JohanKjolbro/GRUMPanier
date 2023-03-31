@@ -5,12 +5,12 @@
 
 //Declaration de variables relatifs au wifi
 const char* ssidHome;
-const char* password; 
+const char* passwordHome; 
 
 WiFiClient client;
 
 const char* host = "10.0.0.96";
-const int port = 1500;
+uint16_t port = 1500;
 
 //Declaration de variables relatifs au lcd
 const int rs=13, en=12, d4=14, d5=27 , d6=26, d7=25;
@@ -41,11 +41,11 @@ bool connexionReseau(char * ssid, char * password )
   return 1;
 }
 
-connexionServeur(char * ssid, char * password)
+bool connexionServeur(const char * ip, uint16_t port) {
 {
   Serial.println("\nConnexion au serveur");
   lcd.println("\nConnexion server");
-  while(!client.connect(ssid,password))
+  while(!client.connect(ip, port))
   {
     Serial.print(".");
     delay(100);
@@ -56,8 +56,6 @@ connexionServeur(char * ssid, char * password)
 }
 
 
-
-
 void setup() {
 
   //moniteur
@@ -65,8 +63,6 @@ void setup() {
   Serial.println("Test serial");
   //lcd
   lcd.begin(16,2);
-  
-  
   
 
   
@@ -76,7 +72,7 @@ void setup() {
 
 
   //Connexion au serveur
-  connexionServeur(ssidHome,passwordHome);
+  connexionServeur(host, port);
 
 }
 
