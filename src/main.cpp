@@ -5,7 +5,7 @@
 
 //Declaration de variables relatifs au wifi
 const char* ssidHome;
-const char* password; 
+const char* passwordHome; 
 
 
 WiFiClient client;
@@ -18,6 +18,14 @@ const int rs=13, en=12, d4=14, d5=27 , d6=26, d7=25;
 LiquidCrystal lcd(rs,en, d4, d5, d6, d7);
 
 int t;
+
+// Variables hx711
+const int LOADCELL_DOUT_PIN = 15;
+const int LOADCELL_SCK_PIN = 2;
+
+const int testWeight = 23;
+
+HX711 scale;
 
 // @ xavier why pass pointers?
 bool connexionReseau(char * ssid, char * password )
@@ -56,6 +64,26 @@ connexionServeur(char * ssid, char * password)
   client.print("test1\n");
 }
 
+bool scaleSetup(int LOADCELL_DOUT_PIN, int LOADCELL_SCK_PIN)
+{
+
+  Serial.print("Taring... Enlever toute masse");
+  scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
+
+  scale.set_scale();
+  scale.tare();
+
+  delay(3000);  
+
+  Serial.print("Placer masse");
+  delay(5000);
+
+  long calibration = scale.get_units(10);
+
+  scale.set_scale(calibration/testWeight);
+
+}
+
 
 
 
@@ -71,6 +99,13 @@ void setup() {
   lcd.clear();
 
   
+
+
+
+
+
+
+
   //Connexion au reseau
   connexionReseau(ssidHome, passwordHome);
 
