@@ -4,8 +4,8 @@
 
 
 //Declaration de variables relatifs au wifi
-const char* ssid = "DEATHSTAR";
-const char* password = "lespaiens27";
+const char* ssid = "iohan";
+const char* password = "johan123";
 
 WiFiClient client;
 
