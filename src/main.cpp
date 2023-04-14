@@ -1,9 +1,6 @@
 // a ajouter : communication avec serveur, taring mode button, eeprom memory calibration
 //
 //
-//
-//
-//
 #include <Arduino.h>
 #include <liquidCrystal.h>
 #include <HX711.h>
