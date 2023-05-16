@@ -13,6 +13,7 @@ char* password = "grumgrum";
 
 
 
+
 // Serveur
 // Il faudra remplacer quelques variables dans cette section
 WiFiClient client;
@@ -59,8 +60,6 @@ const int rs=13, en=12, d4=14, d5=27 , d6=26, d7=25;
 LiquidCrystal lcd(rs,en, d4, d5, d6, d7);
 
 
-
-
 // Message definition
 // Si jamais vous aviez une d/finition de message differente, vous pourriez la modifier ici
 // et le code enverra le bon format
@@ -76,11 +75,6 @@ struct MSG
 };
 
 struct MSG msg;
-
-
-
-
-
 
 
 bool connexionReseau(char * ssid, char * password )
@@ -145,6 +139,13 @@ bool connexionServeur(char * host, int port)
 
 
 
+
+
+
+
+
+
+
 void setup() {
 
 
@@ -163,9 +164,6 @@ void setup() {
 
 
 
-
-
-  
   //Connexion au reseau
 
   if(connexionReseau(ssid, password))
@@ -229,7 +227,7 @@ void loop() {
     oss.write(reinterpret_cast<const char*>(&msg), sizeof(msg));
     std::__cxx11::string serialized = oss.str();        
     String ardSerialized = String(serialized.c_str());  // convert std::string to arduino string
-    client.print(ardSerialized);
+    client.print(ardSerialized); // send data
 
 
 
