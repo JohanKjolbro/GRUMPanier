@@ -13,10 +13,6 @@ char* password = "grumgrum";
 
 
 
-// LCD
-LiquidCrystal lcd;
-
-
 
 
 // Serveur
